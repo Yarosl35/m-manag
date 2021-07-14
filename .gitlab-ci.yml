@@ -3,28 +3,41 @@ cache:
   paths:
     - node_modules/
     - build/
+
 before_script:
   - node -v
   - yarn
+
 stages:
   - lint
   - test
   - build
   - deploy
+
 lint:
   stage: lint
   script:
-    - yarn lint
-    - echo "eslint successfully"
+    - yarn lint-check
+
 test:
   stage: test
   script:
     - echo "test successfully"
+
 build:
   stage: build
-  script: yarn build
+  script:
+    - export REACT_APP_FIREBASE_API_KEY=$FIREBASE_API_KEY
+    - export REACT_APP_FIREBASE_APP_ID=$FIREBASE_APP_ID
+    - export REACT_APP_FIREBASE_AUTH_DOMAIN=$FIREBASE_AUTH_DOMAIN
+    - export REACT_APP_FIREBASE_MESSAGING_SENDER_ID=$FIREBASE_MESSAGING_SENDER_ID
+    - export REACT_APP_FIREBASE_PROJECT_ID=$FIREBASE_PROJECT_ID
+    - export REACT_APP_FIREBASE_STORAGE_BUCKET=$FIREBASE_STORAGE_BUCKET
+    - export REACT_APP_FIREBASE_MEASUREMENT_ID=$FIREBASE_MEASUREMENT_ID
+    - yarn build
+
 deploy:
   stage: deploy
-  script:
-    - npm i -g firebase-tools
-    - firebase deploy --token "$FIREBASE_TOKEN"
+  script: |
+    yarn global add firebase-tools
+    firebase deploy --token "$FIREBASE_TOKEN"
