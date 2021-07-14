@@ -1,0 +1,30 @@
+image: node:14.17.3
+cache:
+  paths:
+    - node_modules/
+    - build/
+before_script:
+  - node -v
+  - yarn
+stages:
+  - lint
+  - test
+  - build
+  - deploy
+lint:
+  stage: lint
+  script:
+    - yarn lint
+    - echo "eslint successfully"
+test:
+  stage: test
+  script:
+    - echo "test successfully"
+build:
+  stage: build
+  script: yarn build
+deploy:
+  stage: deploy
+  script:
+    - npm i -g firebase-tools
+    - firebase deploy --token "$FIREBASE_TOKEN"
