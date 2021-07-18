@@ -5,6 +5,7 @@ import { signInType } from '../services/authService';
 
 export interface PrivateRouteType {
   auth: signInType | null
+  path: string
 }
 
 const PrivateRoute: FC<PrivateRouteType > = ({

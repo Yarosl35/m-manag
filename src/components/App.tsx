@@ -1,19 +1,20 @@
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import { useState } from 'react';
-import Login from './pages/Login';
-import PrivateRoute from './PrivateRoute';
-import LoginFailed from './pages/LoginFailed';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import '../App.css';
+import authContext from '../context/authContext';
 import { signInType } from '../services/authService';
+import CookBook from './pages/CookBook';
 import Home from './pages/Home';
+import Login from './pages/Login';
+import LoginFailed from './pages/LoginFailed';
+// import Test from './pages/Test';
+import PrivateRoute from './PrivateRoute';
 
 const App = () => {
   const [auth, setAuth] = useState<signInType | null>(null);
-  const style = {
-    marginLeft: '20px',
-  };
   return (
     <Router>
-      <div style={style}>
+      <authContext.Provider value={auth}>
         <Switch>
           <Route path="/login-failed">
             <LoginFailed />
@@ -21,13 +22,15 @@ const App = () => {
           <Route path="/login">
             <Login setAuth={setAuth} />
           </Route>
-
-          <PrivateRoute auth={auth}>
-            <Home auth={auth} />
+          <PrivateRoute auth={auth} path="/cookbook">
+            <CookBook />
+          </PrivateRoute>
+          <PrivateRoute auth={auth} path="/">
+            <Home />
           </PrivateRoute>
           <Route path="*" component={() => (<p>404 not found</p>)} />
         </Switch>
-      </div>
+      </authContext.Provider>
     </Router>
   );
 };

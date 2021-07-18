@@ -12,7 +12,7 @@ export interface signInType {
 initializeApp();
 
 function validateEmail(mail: string):boolean {
-  const re = /@remyrobotics/;
+  const re = /@gmail.com/;
   return re.test(mail);
 }
 
