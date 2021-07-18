@@ -1,4 +1,5 @@
 image: node:14.17.3
+
 cache:
   paths:
     - node_modules/
@@ -33,11 +34,13 @@ build:
     - export REACT_APP_FIREBASE_MESSAGING_SENDER_ID=$FIREBASE_MESSAGING_SENDER_ID
     - export REACT_APP_FIREBASE_PROJECT_ID=$FIREBASE_PROJECT_ID
     - export REACT_APP_FIREBASE_STORAGE_BUCKET=$FIREBASE_STORAGE_BUCKET
-    - export REACT_APP_FIREBASE_MEASUREMENT_ID=$FIREBASE_MEASUREMENT_ID
+    - export REACT_APP_APOLLO_TOKEN=$REMY_CLOUD_KITCHEN_API_TOKEN
+    - export REACT_APP_APOLLO_URL=$REMY_CLOUD_KITCHEN_API_URL
     - yarn build
+    # - export REACT_APP_FIREBASE_MEASUREMENT_ID=$FIREBASE_MEASUREMENT_ID
 
 deploy:
   stage: deploy
-  script: |
-    yarn global add firebase-tools
-    firebase deploy --token "$FIREBASE_TOKEN"
+  script:
+    - yarn global add firebase-tools
+    - firebase deploy --token "$FIREBASE_TOKEN"

@@ -1,17 +1,13 @@
-import { FC, useState, useEffect } from 'react';
-import { PrivateRouteType } from '../PrivateRoute';
+import { FC } from 'react';
+import Layout from '../layout';
+import './styles/login.css';
 
-const Home: FC<PrivateRouteType> = ({ auth }) => {
-  const [nameUSer, setUserName] = useState('');
-
-  useEffect(() => {
-    if (auth) setUserName(auth.displayName);
-  }, [auth]);
-  return (
-    <div>
-      <p style={{ fontSize: '1em' }}>{`Welcome, ${nameUSer}!`}</p>
+const Home: FC = () => (
+  <Layout>
+    <div className="menuHome">
+      <p>click on the menu</p>
     </div>
-  );
-};
+  </Layout>
+);
 
 export default Home;

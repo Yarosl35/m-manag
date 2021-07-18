@@ -1,7 +1,8 @@
 import { FC } from 'react';
 import { useHistory } from 'react-router-dom';
-import { signInType, signIn } from '../../services/authService';
+import { signIn, signInType } from '../../services/authService';
 import BtnGoogle from '../button-google';
+import './styles/login.css';
 
 interface LoginType {
   setAuth: (obj: signInType) => void
@@ -21,8 +22,7 @@ const Login: FC<LoginType> = ({ setAuth }) => {
     return history.push('/');
   };
   return (
-    <div>
-      <h1>Login</h1>
+    <div className="loginPage">
       <BtnGoogle onSubmit={onSubmit} />
     </div>
   );
