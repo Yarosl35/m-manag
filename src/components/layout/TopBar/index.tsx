@@ -41,10 +41,7 @@ const ButtonAppBar = () => {
     <div className={classes.root}>
       <AppBar position="static" color="default" style={{ border: '1px solid #DDDDDD', borderRadius: '3px 3px 8px 8px' }}>
         <Toolbar>
-
-          <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
-            <MenuTopBar />
-          </IconButton>
+          <MenuTopBar />
           <Typography variant="h5" className={classes.title}>
             {data.displayName}
           </Typography>

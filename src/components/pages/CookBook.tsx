@@ -1,12 +1,12 @@
 import { useQuery } from '@apollo/client';
 import List from '@material-ui/core/List';
-import ListItem, { ListItemProps } from '@material-ui/core/ListItem';
-import ListItemText from '@material-ui/core/ListItemText';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import { FC, Fragment } from 'react';
+import { Link } from 'react-router-dom';
 import GET_MENU_ITEMS from '../../queries/cookBook';
 import Layout from '../layout';
+import './styles/CookBook.css';
 
 const useStyleBtnList = makeStyles({
   root: {
@@ -28,9 +28,6 @@ const useStyles = makeStyles((theme: Theme) => createStyles({
   },
 }));
 
-function ListItemLink(props: ListItemProps<'a', { button?: true }>) {
-  return <ListItem button component="a" {...props} />;
-}
 interface MenuItem {
   uuid: string
   sku: string
@@ -59,9 +56,14 @@ const CookBook: FC = () => {
             <List component="nav" aria-label="secondary mailbox folders">
               {data.menu_item.map(({ sku, name, uuid }) => (
                 <Fragment key={uuid}>
-                  <ListItemLink href="#simple-list" className={listStyle.root}>
-                    <ListItemText primary={`${sku} | ${name}`} />
-                  </ListItemLink>
+                  <Link
+                    to={`/menu-item/${uuid}`}
+                    className="link"
+                  >
+                    <div className="menuList">
+                      <p>{`${sku} | ${name}`}</p>
+                    </div>
+                  </Link>
                 </Fragment>
               ))}
             </List>

@@ -6,12 +6,9 @@ import './styles/login.css';
 
 const LoginFailed: FC = () => (
   <div className="loginPage">
-    <p style={{ fontSize: '1em', textAlign: 'center' }}>You`re not authorized to view the content of this site, for any questions, please contact tech support team</p>
+    <p className="text-failed">You`re not authorized to view the content of this site, for any questions, please contact tech support team</p>
     <Link
-      className="btn-try"
-      style={{
-        color: '#000', textDecoration: 'none',
-      }}
+      className="linkFailed"
       to="/login"
     >
       <Button variant="contained">

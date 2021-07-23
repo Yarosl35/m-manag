@@ -1,0 +1,11 @@
+.linkMenuBar {
+  color: #000;
+  text-decoration: none;
+}
+.MenuItem {
+  width: 100vw;
+}
+.MenuBarTop {
+  margin-top: 40px;
+  padding: 0px;
+}
