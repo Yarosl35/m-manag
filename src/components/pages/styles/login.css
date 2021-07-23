@@ -19,3 +19,11 @@
   /* justify-content: center; */
   align-items: center;
 }
+.linkFailed {
+  color: #000;
+  text-decoration: none;
+}
+.text-failed {
+  font-size: 1em;
+  text-align: center;
+}

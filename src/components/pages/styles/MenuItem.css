@@ -1,0 +1,9 @@
+.menu-item {
+  padding: 10px;
+  display: flex;
+  height: 100%;
+  margin-top: 10px;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}

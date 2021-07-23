@@ -33,6 +33,13 @@
     "jest"
   ],
   "rules": {
+    "no-alert": "off",
+    "no-restricted-syntax": [
+      "error",
+      "ForInStatement",
+      "LabeledStatement",
+      "WithStatement"
+    ],
     "no-unused-vars": "off",
     "@typescript-eslint/no-unused-vars": "error",
     //should add ".ts" if typescript project
