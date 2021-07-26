@@ -1,4 +1,4 @@
-const readEnv = (envName: string) => {
+export const readEnv = (envName: string) => {
   const value = process.env[envName];
 
   if (!value || typeof value !== 'string') {
@@ -7,5 +7,3 @@ const readEnv = (envName: string) => {
 
   return value;
 };
-
-export default readEnv;

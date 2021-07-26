@@ -2,16 +2,79 @@
 /* eslint-disable react/destructuring-assignment */
 import { useQuery } from '@apollo/client';
 import Button from '@material-ui/core/Button';
+import { makeStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import { ChangeEvent, FC, useState } from 'react';
-import { GET_DELIVERECT_ALLERGENTS } from '../../queries/crudMenu';
 import {
-  AllergentEntity, DeliverectAllergents, deliverectAllergentsType, UpdateMenuItem,
-} from '../../types';
-import TransitionsModal from '../modalSave/index';
-import CheckBoxList, { ID } from '../shared/CheckBoxList';
-import './checkContainer.css';
+  Allergent, AllergentEntity, GetDeliverectAllergentsData, GET_DELIVERECT_ALLERGENTS,
+} from '../../queries/deliverectAllergents';
+import { recipeStep } from '../../queries/recipes';
+import { UpdateMenuItem } from '../../types';
+import { TransitionsModal } from '../modalSave/index';
+import { CheckBoxList, ID } from '../shared/CheckBoxList';
+import { Сontainer } from '../shared/Container';
+import { RecipeSteps } from './RecipeSteps';
 
+const styleMenuItem = makeStyles({
+  blockB: {
+    height: '100%',
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'space-between',
+  },
+  blockEditMenu: {
+    display: 'flex',
+    flexDirection: 'column',
+    width: '750px',
+    height: '100%',
+    padding: '10px',
+  },
+  btnSave: {
+    width: '400px',
+    marginBottom: '15px',
+  },
+  '@media (max-width: 750px)': {
+    blockEditMenu: {
+      width: '100%',
+    },
+    btnSave: {
+      width: '100%',
+    },
+  },
+  upBlock: {
+    marginBottom: '15px',
+    display: 'grid',
+    gridTemplateColumns: '1fr 4fr',
+    gap: '10px',
+  },
+  twoBlock: {
+    display: 'grid',
+    gridTemplateColumns: '1fr 1fr',
+    gap: '10px',
+  },
+  bottomBlock: {
+    marginTop: '15px',
+    display: 'flex',
+    flexDirection: 'column',
+    // justifyContent: 'space-between',
+    // height: '100%',
+    padding: '10px',
+  },
+  blockBtn: {
+    width: '100%',
+    display: 'flex',
+    justifyContent: 'center',
+  },
+  paddingInput: {
+    marginBottom: '40px',
+  },
+  openHeighContainer250: {
+    maxHeight: '250px',
+  },
+  openHeighContainer400: {
+    maxHeight: '400px',
+  },
+});
 export interface PropsMenuItem {
   maxTemp: string
   maxWeight: string
@@ -20,11 +83,13 @@ export interface PropsMenuItem {
   nameProps: string
   sku: string
   uuid: string
-  deliverectAllergents: Array<deliverectAllergentsType>
+  deliverectAllergents: Array<AllergentEntity>
+  recipeSteps: recipeStep[]
   onSave: (obj: UpdateMenuItem) => void
 }
 
-const SetMenu: FC<PropsMenuItem> = (props) => {
+export const SetMenu: FC<PropsMenuItem> = (props) => {
+  const style = styleMenuItem();
   const deliverectAllergentsNew = props.deliverectAllergents
     .map(({ allergent: { integer_value } }) => integer_value);
 
@@ -45,7 +110,7 @@ const SetMenu: FC<PropsMenuItem> = (props) => {
     setter(newValue);
   };
 
-  const { data: dataAllergent } = useQuery<DeliverectAllergents>(GET_DELIVERECT_ALLERGENTS);
+  const { data: dataAllergent } = useQuery<GetDeliverectAllergentsData>(GET_DELIVERECT_ALLERGENTS);
 
   if (!dataAllergent) return null; // loading
 
@@ -54,7 +119,7 @@ const SetMenu: FC<PropsMenuItem> = (props) => {
     setTimeout(() => {
       handleModal(false);
     }, 3000);
-    const arrayAllergent: AllergentEntity[] = [];
+    const arrayAllergent: Allergent[] = [];
 
     for (const id of arrayList) {
       const obj = dataAllergent.deliverect_allergent
@@ -91,66 +156,66 @@ const SetMenu: FC<PropsMenuItem> = (props) => {
   return (
     <>
       <TransitionsModal open={open} handleModal={handleModal} />
-      <div className="block-edit-menu">
-        <div className="upBlock">
+      <div className={style.blockEditMenu}>
+        <div className={style.upBlock}>
           <TextField
             disabled
-            className="outlined-disabled SKU paddingInput"
+            className={style.paddingInput}
             label="SKU"
             defaultValue={props.sku}
             variant="outlined"
           />
           <TextField
-            className="outlined-required name paddingInput"
+            className={style.paddingInput}
             label="Name"
             defaultValue={name}
             onChange={changeHandler(setName)}
             variant="outlined"
           />
         </div>
-        <div className="twoBlock">
+        <div className={style.twoBlock}>
           <TextField
-            className="outlined-required otherInp  paddingInput"
+            className={style.paddingInput}
             label="Minimum weight (g)"
             defaultValue={minWeight}
             onChange={changeHandler(setMinWeight)}
             variant="outlined"
           />
           <TextField
-            className="outlined-required otherInp paddingInput"
+            className={style.paddingInput}
             label="Maximum weight (g)"
             defaultValue={maxWeight}
             onChange={changeHandler(setMaxWeight)}
             variant="outlined"
           />
           <TextField
-            className="outlined otherInp"
             label="Minimum temp.(C)"
             defaultValue={minTemp}
             onChange={changeHandler(setMinTemp)}
             variant="outlined"
           />
           <TextField
-            className="outlined-required otherInp"
             label="Maximum temp.(C)"
             defaultValue={maxTemp}
             onChange={changeHandler(setMaxTemp)}
             variant="outlined"
           />
         </div>
-        <div className="bottomBlock">
-          <div className="box">
-            <span className="boxTitle">Allergent</span>
-            <div className="listWrapper">
+        <div className={style.blockB}>
+          <div className={style.bottomBlock}>
+            <Сontainer open name="Allergents" maxHeightClass={style.openHeighContainer250}>
               <CheckBoxList
                 allItems={ListAllergentsForChecked}
                 onChange={setArrayList}
                 checked={arrayList}
               />
-            </div>
+            </Сontainer>
+            <Сontainer open={false} name="Recipe steps" maxHeightClass={style.openHeighContainer400}>
+              <RecipeSteps recipeSteps={props.recipeSteps} />
+            </Сontainer>
           </div>
-          <div className="blockBtn">
-            <Button variant="contained" style={{ background: '#c4f1c8' }} onClick={saveMenu} className="btn-save">
+          <div className={style.blockBtn}>
+            <Button variant="contained" style={{ background: '#c4f1c8' }} onClick={saveMenu} className={style.btnSave}>
               Save
             </Button>
           </div>
@@ -159,5 +224,3 @@ const SetMenu: FC<PropsMenuItem> = (props) => {
     </>
   );
 };
-
-export default SetMenu;

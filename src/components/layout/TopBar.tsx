@@ -9,8 +9,8 @@ import {
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import { MouseEvent, useContext, useState } from 'react';
-import authContext from '../../../context/authContext';
-import MenuTopBar from './MenuBar';
+import { AuthContext } from '../../context/AuthContext';
+import { MenuBar } from './MenuBar';
 
 const useStyles = makeStyles((theme: Theme) => createStyles({
   root: {
@@ -24,7 +24,7 @@ const useStyles = makeStyles((theme: Theme) => createStyles({
   },
 }));
 
-const ButtonAppBar = () => {
+export const TopBar = () => {
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const handleMenu = (event: MouseEvent<HTMLElement>) => {
@@ -34,14 +34,14 @@ const ButtonAppBar = () => {
   const handleClose = () => {
     setAnchorEl(null);
   };
-  const data = useContext(authContext);
+  const data = useContext(AuthContext);
   if (!data) return null;
   if (!data.photoURL) return null;
   return (
     <div className={classes.root}>
       <AppBar position="static" color="default" style={{ border: '1px solid #DDDDDD', borderRadius: '3px 3px 8px 8px' }}>
         <Toolbar>
-          <MenuTopBar />
+          <MenuBar />
           <Typography variant="h5" className={classes.title}>
             {data.displayName}
           </Typography>
@@ -56,7 +56,6 @@ const ButtonAppBar = () => {
               <Avatar alt="Cindy Baker" src={data.photoURL} />
             </IconButton>
             <Menu
-              id="menu-appbar"
               anchorEl={anchorEl}
               anchorOrigin={{
                 vertical: 'top',
@@ -78,4 +77,3 @@ const ButtonAppBar = () => {
     </div>
   );
 };
-export default ButtonAppBar;

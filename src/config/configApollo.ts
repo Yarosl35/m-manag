@@ -1,7 +1,7 @@
 import {
   ApolloLink, HttpLink,
 } from '@apollo/client';
-import readEnv from './readEnv';
+import { readEnv } from './readEnv';
 
 const httpLink = new HttpLink({ uri: readEnv('REACT_APP_APOLLO_URL') });
 

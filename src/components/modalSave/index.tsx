@@ -22,7 +22,7 @@ interface PropsModal {
     open: boolean
     handleModal: (value: boolean)=>void
 }
-const TransitionsModal: FC<PropsModal> = ({ open, handleModal }) => {
+export const TransitionsModal: FC<PropsModal> = ({ open, handleModal }) => {
   const classes = useStyles();
   return (
     <div>
@@ -47,4 +47,3 @@ const TransitionsModal: FC<PropsModal> = ({ open, handleModal }) => {
     </div>
   );
 };
-export default TransitionsModal;

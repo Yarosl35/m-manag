@@ -4,9 +4,9 @@ import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import { FC, Fragment } from 'react';
 import { Link } from 'react-router-dom';
-import GET_MENU_ITEMS from '../../queries/cookBook';
-import Layout from '../layout';
-import './styles/CookBook.css';
+import { GetMenuItemsData, GET_MENU_ITEMS } from '../../queries/menus';
+import { Layout } from '../layout';
+import { Loader } from '../loader/Loader';
 
 const useStyleBtnList = makeStyles({
   root: {
@@ -18,6 +18,20 @@ const useStyleBtnList = makeStyles({
     marginLeft: '5px',
     fontSize: '2em',
   },
+  link: {
+    textDecoration: 'none',
+  },
+  menuList: {
+    color: 'black',
+    padding: '15px',
+    borderRadius: '10px',
+    marginBottom: '5px',
+    background: '#efefef',
+    '&:hover': {
+      background: '#f8f8f8',
+    },
+  },
+
 });
 const useStyles = makeStyles((theme: Theme) => createStyles({
   root: {
@@ -28,26 +42,16 @@ const useStyles = makeStyles((theme: Theme) => createStyles({
   },
 }));
 
-interface MenuItem {
-  uuid: string
-  sku: string
-  name:string
-}
-interface MenuItemList {
-  /* eslint-disable camelcase */
-  menu_item: MenuItem[]
-}
-const CookBook: FC = () => {
-  const { loading, data } = useQuery<MenuItemList>(GET_MENU_ITEMS);
+export const CookBook: FC = () => {
+  const { data } = useQuery<GetMenuItemsData>(GET_MENU_ITEMS);
   const classes = useStyles();
   const listStyle = useStyleBtnList();
 
-  if (!data) return null;
   return (
     <Layout>
       <div className={classes.root}>
-        {loading ? (
-          <p>Loading </p>
+        {!data ? (
+          <Loader />
         ) : (
           <>
             <Typography variant="h5" className={listStyle.titleMenu}>
@@ -58,9 +62,9 @@ const CookBook: FC = () => {
                 <Fragment key={uuid}>
                   <Link
                     to={`/menu-item/${uuid}`}
-                    className="link"
+                    className={listStyle.link}
                   >
-                    <div className="menuList">
+                    <div className={listStyle.menuList}>
                       <p>{`${sku} | ${name}`}</p>
                     </div>
                   </Link>
@@ -74,5 +78,3 @@ const CookBook: FC = () => {
     </Layout>
   );
 };
-
-export default CookBook;
