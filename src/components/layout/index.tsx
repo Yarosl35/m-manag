@@ -1,12 +1,23 @@
+import { makeStyles } from '@material-ui/core/styles';
 import { FC } from 'react';
-import './index.css';
-import TopBar from './TopBar';
+import { TopBar } from './TopBar';
 
 interface Props{}
-const Layout: FC<Props> = ({ children }) => (
-  <div className="styleMainBlock">
-    <TopBar />
-    {children}
-  </div>
-);
-export default Layout;
+
+const useStyleLayout = makeStyles({
+  styleMainBlock: {
+    padding: '5px',
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+  },
+});
+export const Layout: FC<Props> = ({ children }) => {
+  const style = useStyleLayout();
+  return (
+    <div className={style.styleMainBlock}>
+      <TopBar />
+      {children}
+    </div>
+  );
+};

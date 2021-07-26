@@ -1,6 +1,6 @@
 import firebase from 'firebase';
 import 'firebase/auth';
-import initializeApp from '../config/configFirebase';
+import { initializeApp } from '../config/configFirebase';
 
 export interface signInType {
   email: string

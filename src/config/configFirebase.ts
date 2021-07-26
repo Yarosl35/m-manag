@@ -1,6 +1,6 @@
 import firebase from 'firebase/app';
 import 'firebase/auth';
-import readEnv from './readEnv';
+import { readEnv } from './readEnv';
 
 interface configFirebaseType {
   apiKey: string
@@ -22,11 +22,10 @@ const configFirebase: configFirebaseType = {
   // measurementId: readEnv('REACT_APP_FIREBASE_MEASUREMENT_ID'),
 };
 
-const initializeApp = (): void => {
+export const initializeApp = (): void => {
   if (!firebase.apps.length) {
     firebase.initializeApp(configFirebase);
   } else {
     firebase.app();
   }
 };
-export default initializeApp;

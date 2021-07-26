@@ -5,7 +5,7 @@ interface TypeBtn{
   onSubmit:()=>void
 }
 
-const BtnGoogle: FC<TypeBtn> = ({ onSubmit }) => (
+export const BtnGoogle: FC<TypeBtn> = ({ onSubmit }) => (
   <div
     style={{ cursor: 'pointer' }}
     className="google-btn"
@@ -20,5 +20,3 @@ const BtnGoogle: FC<TypeBtn> = ({ onSubmit }) => (
     <p className="btn-text"><b>Continue with google</b></p>
   </div>
 );
-
-export default BtnGoogle;

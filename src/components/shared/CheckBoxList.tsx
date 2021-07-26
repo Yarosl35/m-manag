@@ -27,10 +27,8 @@ interface CheckBoxListProps {
   checked: ID[]
 }
 
-const CheckBoxList: FC<CheckBoxListProps> = ({ allItems, onChange, checked }) => {
+export const CheckBoxList: FC<CheckBoxListProps> = ({ allItems, onChange, checked }) => {
   const classes = useStyles();
-
-  // const [checkedItem, setCheckedItem] = useState<ID[]>(checked);
 
   const handleToggle = (id: ID) => () => {
     const currentIndex = checked.findIndex((checkedId) => checkedId === id);
@@ -41,7 +39,6 @@ const CheckBoxList: FC<CheckBoxListProps> = ({ allItems, onChange, checked }) =>
     } else {
       newChecked.splice(currentIndex, 1);
     }
-    // setCheckedItem(newChecked);
     onChange(newChecked);
   };
 
@@ -74,4 +71,3 @@ const CheckBoxList: FC<CheckBoxListProps> = ({ allItems, onChange, checked }) =>
     </List>
   );
 };
-export default CheckBoxList;

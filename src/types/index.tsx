@@ -1,16 +1,4 @@
 /* eslint-disable camelcase */
-export interface AllergentEntity {
-    allergent: string,
-    integer_value: number
-}
-
-export interface deliverectAllergentsType {
-    allergent: AllergentEntity
-}
-
-export interface DeliverectAllergents {
-    deliverect_allergent: AllergentEntity[]
-}
 export interface UpdateMenuItem {
     menu_item_uuid: string
     name: string

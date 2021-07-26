@@ -24,7 +24,6 @@ test:
   stage: test
   script:
     - echo "test successfully"
-
 build:
   stage: build
   script:
