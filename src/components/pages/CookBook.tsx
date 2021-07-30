@@ -8,7 +8,7 @@ import { GetMenuItemsData, GET_MENU_ITEMS } from '../../queries/menus';
 import { Layout } from '../layout';
 import { Loader } from '../loader/Loader';
 
-const useStyleBtnList = makeStyles({
+const styles = makeStyles({
   root: {
     background: '#F9F9F9',
     marginTop: '8px',
@@ -45,7 +45,7 @@ const useStyles = makeStyles((theme: Theme) => createStyles({
 export const CookBook: FC = () => {
   const { data } = useQuery<GetMenuItemsData>(GET_MENU_ITEMS);
   const classes = useStyles();
-  const listStyle = useStyleBtnList();
+  const style = styles();
 
   return (
     <Layout>
@@ -54,7 +54,7 @@ export const CookBook: FC = () => {
           <Loader />
         ) : (
           <>
-            <Typography variant="h5" className={listStyle.titleMenu}>
+            <Typography variant="h5" className={style.titleMenu}>
               CookBook
             </Typography>
             <List component="nav" aria-label="secondary mailbox folders">
@@ -62,9 +62,9 @@ export const CookBook: FC = () => {
                 <Fragment key={uuid}>
                   <Link
                     to={`/menu-item/${uuid}`}
-                    className={listStyle.link}
+                    className={style.link}
                   >
-                    <div className={listStyle.menuList}>
+                    <div className={style.menuList}>
                       <p>{`${sku} | ${name}`}</p>
                     </div>
                   </Link>

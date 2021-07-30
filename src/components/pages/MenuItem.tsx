@@ -1,3 +1,5 @@
+/* eslint-disable camelcase */
+
 import { useMutation, useQuery } from '@apollo/client';
 import { makeStyles } from '@material-ui/core/styles';
 import { FC } from 'react';
@@ -8,7 +10,7 @@ import { Layout } from '../layout';
 import { Loader } from '../loader/Loader';
 import { SetMenu } from '../MenuItemComponent';
 
-const styleMenuItem = makeStyles({
+const styles = makeStyles({
   root: {
     padding: '10px',
     display: 'flex',
@@ -21,7 +23,7 @@ const styleMenuItem = makeStyles({
 });
 
 export const MenuItem: FC = () => {
-  const style = styleMenuItem();
+  const style = styles();
   const { uuid } = useParams<{uuid: string}>();
 
   const { data: menuItem, refetch } = useQuery<GetMenuItemData>(GET_MENU_ITEM, {
@@ -39,7 +41,7 @@ export const MenuItem: FC = () => {
     });
   };
   if (!menuItem) return <Layout><Loader /></Layout>;
-  /* eslint-disable camelcase */
+
   const {
     max_temp, max_weight, min_temp, min_weight, name, sku, deliverect_allergents, recipe_steps,
   } = menuItem.menu_item[0];

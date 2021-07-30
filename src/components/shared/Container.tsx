@@ -1,7 +1,7 @@
 import { makeStyles } from '@material-ui/core/styles';
 import { FC, useState } from 'react';
 
-const useStyleContainer = makeStyles({
+const styles = makeStyles({
   box: {
     position: 'relative',
     marginBottom: '25px',
@@ -73,25 +73,25 @@ export const Сontainer: FC<propsLayoutContainer> = ({
   open, children, name, maxHeightClass,
 }) => {
   const [hendlerContainer, setHendlerContainer] = useState<boolean>(open);
-  const classes = useStyleContainer();
+  const style = styles();
   const toggleChange = () => {
     setHendlerContainer(!hendlerContainer);
   };
   return (
-    <div className={classes.box}>
-      <span className={classes.boxTitle}>{name}</span>
+    <div className={style.box}>
+      <span className={style.boxTitle}>{name}</span>
       <div
         role="button"
         tabIndex={0}
         onClick={toggleChange}
         onKeyDown={toggleChange}
-        className={classes.toggle}
+        className={style.toggle}
       >
         {hendlerContainer ? <span>&#9650;</span> : <span>&#9660;</span>}
       </div>
-      <div className={`${classes.listWrapper} ${hendlerContainer ? maxHeightClass : classes.closeHeighContainer}`}>
+      <div className={`${style.listWrapper} ${hendlerContainer ? maxHeightClass : style.closeHeighContainer}`}>
         <div
-          className={hendlerContainer ? classes.showChildren : classes.hideChildren}
+          className={hendlerContainer ? style.showChildren : style.hideChildren}
         >
           { children }
         </div>
