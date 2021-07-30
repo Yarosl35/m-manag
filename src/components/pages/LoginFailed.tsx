@@ -4,7 +4,7 @@ import ReplayIcon from '@material-ui/icons/Replay';
 import { FC } from 'react';
 import { Link } from 'react-router-dom';
 
-const styleLoginFailed = makeStyles({
+const styles = makeStyles({
   loginPage: {
     width: '100%',
     height: '100vh',
@@ -25,7 +25,7 @@ const styleLoginFailed = makeStyles({
 
 });
 export const LoginFailed: FC = () => {
-  const style = styleLoginFailed();
+  const style = styles();
   return (
     <div className={style.loginPage}>
       <p className={style.textFailed}>

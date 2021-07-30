@@ -5,6 +5,7 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import { FC } from 'react';
+import { ID } from '../../types';
 
 const useStyles = makeStyles((theme: Theme) => createStyles({
   root: {
@@ -13,8 +14,6 @@ const useStyles = makeStyles((theme: Theme) => createStyles({
     backgroundColor: theme.palette.background.paper,
   },
 }));
-
-export type ID = number | String;
 
 export interface CheckBoxListItem {
   name: string,
@@ -28,7 +27,7 @@ interface CheckBoxListProps {
 }
 
 export const CheckBoxList: FC<CheckBoxListProps> = ({ allItems, onChange, checked }) => {
-  const classes = useStyles();
+  const style = useStyles();
 
   const handleToggle = (id: ID) => () => {
     const currentIndex = checked.findIndex((checkedId) => checkedId === id);
@@ -43,7 +42,7 @@ export const CheckBoxList: FC<CheckBoxListProps> = ({ allItems, onChange, checke
   };
 
   return (
-    <List className={classes.root}>
+    <List className={style.root}>
       {allItems.map(({ name, id }) => {
         const labelId = `checkbox-list-label-${id}`;
 

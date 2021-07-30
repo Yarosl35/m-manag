@@ -1,5 +1,5 @@
 /* eslint-disable camelcase */
-import { gql } from '@apollo/client';
+import { gql, useQuery } from '@apollo/client';
 
 export interface Allergent {
   allergent: string,
@@ -8,6 +8,10 @@ export interface Allergent {
 
 export interface AllergentEntity {
   allergent: Allergent
+}
+
+export interface ApolloItems<T> {
+  items: T[]
 }
 
 export interface GetDeliverectAllergentsData {
@@ -22,6 +26,20 @@ export const GET_DELIVERECT_ALLERGENTS = gql`
     }
   }
 `;
+
+export interface AllergentParsed {
+  name: string,
+  id: number
+}
+
+export const useGetAllergents = (): AllergentParsed[] | null => {
+  const { data: dataAllergent } = useQuery<GetDeliverectAllergentsData>(GET_DELIVERECT_ALLERGENTS);
+
+  if (!dataAllergent) return null;
+
+  return dataAllergent.deliverect_allergent
+    .map(({ allergent, integer_value }) => ({ name: allergent, id: integer_value }));
+};
 
 // // CREATE_DELIVERECT_ALLERGENT
 // // DELETE_DELIVERECT_ALLERGENT

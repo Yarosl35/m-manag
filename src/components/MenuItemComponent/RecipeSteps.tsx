@@ -1,12 +1,15 @@
 /* eslint-disable camelcase */
-import FormControlLabel from '@material-ui/core/FormControlLabel';
+
 import { makeStyles } from '@material-ui/core/styles';
-import Switch from '@material-ui/core/Switch';
-import { ChangeEvent, FC, useState } from 'react';
+import { FC } from 'react';
+import {
+  Control, DeepMap, FieldError, UseFormRegister, UseFormSetValue, UseFormClearErrors,
+} from 'react-hook-form';
 import { recipeStep } from '../../queries/recipes';
 import { RecipeInput } from './RecipeInputs';
+import { IFormInputs } from '../../types';
 
-const styleRecipeSteps = makeStyles({
+const styles = makeStyles({
   root: {
     marginTop: '30px',
   },
@@ -14,18 +17,20 @@ const styleRecipeSteps = makeStyles({
     display: 'flex',
     marginTop: '-10px',
   },
-  switchTrue: {
-    marginTop: '5px',
-    marginBottom: '10px',
+  containerForNUmberStep: {
+    width: '100%',
   },
-  switchFalse: {
-    marginTop: '5px',
-    marginBottom: '20px',
+  containerForLine: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: '100%',
+    height: '100%',
+    paddingBottom: '15px',
   },
   line: {
-    transform: 'rotate(90deg)',
-    width: '14px',
-    height: '3px',
+    width: '3px',
+    height: '100%',
     background: '#c4c4c4',
     borderRadius: '20px',
   },
@@ -42,7 +47,9 @@ const styleRecipeSteps = makeStyles({
     marginBottom: '10px',
   },
   secondDiv: {
-    display: 'flex', flexDirection: 'column',
+    paddingTop: '4px',
+    display: 'flex',
+    flexDirection: 'column',
   },
   leftContainer: {
     display: 'flex',
@@ -52,64 +59,45 @@ const styleRecipeSteps = makeStyles({
     marginRight: '25px',
   },
 });
-interface PropsReciped {
+
+export interface ReactFormHookProps {
+  control: Control<IFormInputs>
+  errors: DeepMap<IFormInputs, FieldError>
+  register: UseFormRegister<IFormInputs>
+  setValue: UseFormSetValue<IFormInputs>
+  clearErrors: UseFormClearErrors<IFormInputs>
+}
+interface PropsRecipe extends ReactFormHookProps {
   recipeSteps: recipeStep[]
 }
-export const RecipeSteps: FC<PropsReciped> = ({ recipeSteps }) => {
-  const style = styleRecipeSteps();
-  const [state, setState] = useState({
-    checked: true,
-  });
+export const RecipeSteps: FC<PropsRecipe> = ({
+  recipeSteps, control, errors, register, setValue, clearErrors,
+}) => {
+  const style = styles();
 
-  const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
-    setState({ ...state, [event.target.name]: event.target.checked });
-  };
   return (
     <div className={style.root}>
-      {recipeSteps.map(({
-        cooking_time_weight_coefficient,
-        step, pause_time, microwave_power,
-        is_pause, fan_speed, heat_temperature,
-      }) => (
-        <div key={step} className={style.main}>
+      {recipeSteps.map((stepObj, index) => (
+        <div key={stepObj.step} className={style.main}>
           <div className={style.leftContainer}>
-            <div className={style.step}>
-              {step}
+            <div className={style.containerForNUmberStep}>
+              <div className={style.step}>
+                {stepObj.step}
+              </div>
             </div>
-            <div className={style.line} />
+            <div className={style.containerForLine}>
+              <div className={style.line} />
+            </div>
           </div>
           <div className={style.secondDiv}>
-            <FormControlLabel
-              className={is_pause ? style.switchTrue : style.switchFalse}
-              control={(
-                <Switch
-                  checked={is_pause}
-                  onChange={handleChange}
-                  name="pause"
-                  color="primary"
-                />
-               )}
-              label="Is pause?"
-            />
             <RecipeInput
-              value="Weight-time coefficient"
-              variable={cooking_time_weight_coefficient}
-            />
-            <RecipeInput
-              value="pause time"
-              variable={pause_time}
-            />
-            <RecipeInput
-              value="microwave power"
-              variable={microwave_power}
-            />
-            <RecipeInput
-              value="heat temperature"
-              variable={heat_temperature}
-            />
-            <RecipeInput
-              value="fan speed"
-              variable={fan_speed}
+              clearErrors={clearErrors}
+              index={index}
+              control={control}
+              errors={errors}
+              stepObj={stepObj}
+              register={register}
+              setValue={setValue}
             />
           </div>
         </div>

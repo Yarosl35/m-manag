@@ -4,7 +4,7 @@ import { useHistory } from 'react-router-dom';
 import { signIn, signInType } from '../../services/authService';
 import { BtnGoogle } from '../button-google';
 
-const styleLogin = makeStyles({
+const styles = makeStyles({
   loginPage: {
     width: '100%',
     height: '100vh',
@@ -28,7 +28,7 @@ interface LoginType {
   setAuth: (obj: signInType) => void
 }
 export const Login: FC<LoginType> = ({ setAuth }) => {
-  const style = styleLogin();
+  const style = styles();
   const history = useHistory();
   const onSubmit = async () => {
     const resultObj: signInType | null = await signIn();

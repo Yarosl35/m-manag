@@ -4,7 +4,7 @@ import { TopBar } from './TopBar';
 
 interface Props{}
 
-const useStyleLayout = makeStyles({
+const styles = makeStyles({
   styleMainBlock: {
     padding: '5px',
     display: 'flex',
@@ -13,7 +13,7 @@ const useStyleLayout = makeStyles({
   },
 });
 export const Layout: FC<Props> = ({ children }) => {
-  const style = useStyleLayout();
+  const style = styles();
   return (
     <div className={style.styleMainBlock}>
       <TopBar />

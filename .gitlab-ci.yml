@@ -19,7 +19,6 @@ lint:
   stage: lint
   script:
     - yarn lint-check
-
 test:
   stage: test
   script:

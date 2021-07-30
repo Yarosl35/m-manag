@@ -2,7 +2,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import { FC } from 'react';
 import { Layout } from '../layout';
 
-const styleHome = makeStyles({
+const styles = makeStyles({
   root: {
     width: '100%',
     height: '100vh',
@@ -13,7 +13,7 @@ const styleHome = makeStyles({
   },
 });
 export const Home: FC = () => {
-  const style = styleHome();
+  const style = styles();
   return (
     <Layout>
       <div className={style.root}>

@@ -12,7 +12,11 @@ import { MouseEvent, useContext, useState } from 'react';
 import { AuthContext } from '../../context/AuthContext';
 import { MenuBar } from './MenuBar';
 
-const useStyles = makeStyles((theme: Theme) => createStyles({
+const styles = makeStyles((theme: Theme) => createStyles({
+  appBar: {
+    border: '1px solid #DDDDDD',
+    borderRadius: '3px 3px 8px 8px',
+  },
   root: {
     flexGrow: 4,
   },
@@ -25,7 +29,7 @@ const useStyles = makeStyles((theme: Theme) => createStyles({
 }));
 
 export const TopBar = () => {
-  const classes = useStyles();
+  const style = styles();
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const handleMenu = (event: MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
@@ -38,11 +42,11 @@ export const TopBar = () => {
   if (!data) return null;
   if (!data.photoURL) return null;
   return (
-    <div className={classes.root}>
-      <AppBar position="static" color="default" style={{ border: '1px solid #DDDDDD', borderRadius: '3px 3px 8px 8px' }}>
+    <div className={style.root}>
+      <AppBar position="static" color="default" className={style.appBar}>
         <Toolbar>
           <MenuBar />
-          <Typography variant="h5" className={classes.title}>
+          <Typography variant="h5" className={style.title}>
             {data.displayName}
           </Typography>
           <div>

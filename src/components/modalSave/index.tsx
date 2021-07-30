@@ -4,7 +4,7 @@ import Modal from '@material-ui/core/Modal';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import { FC } from 'react';
 
-const useStyles = makeStyles((theme: Theme) => createStyles({
+const styles = makeStyles((theme: Theme) => createStyles({
   modal: {
     display: 'flex',
     alignItems: 'center',
@@ -23,13 +23,13 @@ interface PropsModal {
     handleModal: (value: boolean)=>void
 }
 export const TransitionsModal: FC<PropsModal> = ({ open, handleModal }) => {
-  const classes = useStyles();
+  const style = styles();
   return (
     <div>
       <Modal
         aria-labelledby="transition-modal-title"
         aria-describedby="transition-modal-description"
-        className={classes.modal}
+        className={style.modal}
         open={open}
         onClose={() => handleModal(false)}
         closeAfterTransition
@@ -39,7 +39,7 @@ export const TransitionsModal: FC<PropsModal> = ({ open, handleModal }) => {
         }}
       >
         <Fade in={open}>
-          <div className={classes.paper}>
+          <div className={style.paper}>
             <h2 id="transition-modal-title">saved</h2>
           </div>
         </Fade>

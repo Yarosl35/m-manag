@@ -6,7 +6,7 @@ import MenuIcon from '@material-ui/icons/Menu';
 import { MouseEvent, useState } from 'react';
 import { Link } from 'react-router-dom';
 
-const useStyleMenu = makeStyles({
+const styles = makeStyles({
   linkMenuBar: {
     color: '#000',
     textDecoration: 'none',
@@ -20,7 +20,7 @@ const useStyleMenu = makeStyles({
   },
 });
 export const MenuBar = () => {
-  const classes = useStyleMenu();
+  const style = styles();
   const menuArr: Array<{id: string, name: string, url: string}> = [{ id: '1', name: 'CookBook', url: '/cookbook' }];
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 
@@ -48,11 +48,11 @@ export const MenuBar = () => {
         keepMounted
         open={Boolean(anchorEl)}
         onClose={handleClose}
-        className={classes.MenuBarTop}
+        className={style.MenuBarTop}
       >
         {menuArr.map(({ id, name, url }) => (
-          <MenuItem key={id} className={classes.MenuItem} onClick={handleClose}>
-            <Link className={classes.linkMenuBar} to={url}>
+          <MenuItem key={id} className={style.MenuItem} onClick={handleClose}>
+            <Link className={style.linkMenuBar} to={url}>
               {name}
             </Link>
           </MenuItem>
