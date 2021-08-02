@@ -12,7 +12,6 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { AllergentEntity, useGetAllergents } from '../../queries/deliverectAllergents';
 import { recipeStep } from '../../queries/recipes';
 import { UpdateMenuItem, ID, IFormInputs } from '../../types';
-import { TransitionsModal } from '../modalSave/index';
 import { CheckBoxList } from '../shared/CheckBoxList';
 import { Сontainer } from '../shared/Container';
 import { RecipeSteps } from './RecipeSteps';
@@ -96,11 +95,6 @@ export const SetMenu: FC<PropsMenuItem> = (props) => {
     .map(({ allergent: { integer_value } }) => integer_value);
 
   const [arrayList, setArrayList] = useState <Array<ID>>(deliverectAllergentsNew);
-  const [open, setOpen] = useState(false);
-
-  const handleModal = (value: boolean) => {
-    setOpen(value);
-  };
 
   const {
     register,
@@ -118,10 +112,6 @@ export const SetMenu: FC<PropsMenuItem> = (props) => {
   if (!allergentList) return null; // loading
 
   const onSubmit = (data: IFormInputs) => {
-    handleModal(true);
-    setTimeout(() => {
-      handleModal(false);
-    }, 3000);
     const formattedDataMenu = prepareMutationDataMenu(data, props.uuid, arrayList, allergentList);
 
     props.onSave(formattedDataMenu);
@@ -129,7 +119,6 @@ export const SetMenu: FC<PropsMenuItem> = (props) => {
 
   return (
     <>
-      <TransitionsModal open={open} handleModal={handleModal} />
       <div className={style.blockEditMenu}>
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className={style.upBlock}>

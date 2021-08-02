@@ -3,6 +3,8 @@ import { makeStyles } from '@material-ui/core/styles';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import TextField from '@material-ui/core/TextField';
 import Switch from '@material-ui/core/Switch';
+import IconButton from '@material-ui/core/IconButton';
+import DeleteIcon from '@material-ui/icons/Delete';
 import {
   FC, useState, ChangeEvent, useEffect,
 } from 'react';
@@ -24,19 +26,26 @@ const styles = makeStyles({
     marginTop: '5px',
     marginBottom: '20px',
   },
+  ContainerTop: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    marginBottom: '20px',
+  },
 });
 
 interface PropsRecipe extends ReactFormHookProps {
   stepObj: recipeStep
   index: number
+  showRemoveStepBtn: boolean
+  removeStep: (index: number)=>void
 }
 const defaultValue = (value: number | null) => (!value ? 0 : value);
 
 export const RecipeInput: FC<PropsRecipe> = ({
-  control, errors, index, register, setValue, clearErrors,
+  control, errors, index, removeStep, showRemoveStepBtn, register, setValue, clearErrors,
   stepObj: {
-    cooking_time_weight_coefficient,
-    fan_speed, step, pause_time, heat_temperature, microwave_power, is_pause,
+    cooking_time_weight_coefficient, step,
+    fan_speed, pause_time, heat_temperature, microwave_power, is_pause,
   },
 }) => {
   const [isPause, setIsPause] = useState<boolean>(is_pause);
@@ -63,19 +72,26 @@ export const RecipeInput: FC<PropsRecipe> = ({
   useEffect(() => {
     setValue(`menu_item_recipe_steps.${index}.is_pause`, isPause);
   }, [isPause]);
-
   return (
     <>
-      <FormControlLabel
-        control={(
-          <Switch
-            checked={isPause}
-            onChange={handleChange}
-            color="primary"
-          />
+      <div className={style.ContainerTop}>
+        <FormControlLabel
+          control={(
+            <Switch
+              checked={isPause}
+              onChange={handleChange}
+              color="primary"
+            />
         )}
-        label="Is pause?"
-      />
+          label="Is pause?"
+        />
+
+        {showRemoveStepBtn ? (
+          <IconButton style={{ background: '#FFE3E3' }} onClick={() => { removeStep(step); }} aria-label="delete">
+            <DeleteIcon color="secondary" />
+          </IconButton>
+        ) : null}
+      </div>
       {isPause ? (
         <Controller
           name={`menu_item_recipe_steps.${index}.pause_time`}

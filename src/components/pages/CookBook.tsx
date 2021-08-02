@@ -1,10 +1,9 @@
-import { useQuery } from '@apollo/client';
 import List from '@material-ui/core/List';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import { FC, Fragment } from 'react';
 import { Link } from 'react-router-dom';
-import { GetMenuItemsData, GET_MENU_ITEMS } from '../../queries/menus';
+import { getMenuItems } from '../../queries/menus';
 import { Layout } from '../layout';
 import { Loader } from '../loader/Loader';
 
@@ -43,7 +42,7 @@ const useStyles = makeStyles((theme: Theme) => createStyles({
 }));
 
 export const CookBook: FC = () => {
-  const { data } = useQuery<GetMenuItemsData>(GET_MENU_ITEMS);
+  const data = getMenuItems();
   const classes = useStyles();
   const style = styles();
 

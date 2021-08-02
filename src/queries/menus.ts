@@ -1,5 +1,7 @@
 /* eslint-disable camelcase */
-import { gql } from '@apollo/client';
+import {
+  gql, useQuery, useMutation,
+} from '@apollo/client';
 import { AllergentEntity } from './deliverectAllergents';
 import { recipeStep } from './recipes';
 
@@ -22,7 +24,11 @@ export const GET_MENU_ITEMS = gql`
         }
     }
 `;
-
+export const getMenuItems = ():GetMenuItemsData | null => {
+  const { data } = useQuery<GetMenuItemsData>(GET_MENU_ITEMS);
+  if (!data) return null;
+  return data;
+};
 export interface MenuItem {
   sku: string
   name: string
@@ -135,6 +141,29 @@ export const UPDATE_MENU_ITEM = gql`
       }
     }
     `;
+
+export const useGetMenuItem = (uuid: string): MenuItem | null => {
+  const { data: getMenu } = useQuery<GetMenuItemData>(GET_MENU_ITEM, {
+    variables: {
+      menu_item_uuid: uuid,
+    },
+  });
+  if (!getMenu) return null;
+  return getMenu.menu_item[0];
+};
+
+export const useUpdateMenuItem = (uuid: string) => {
+  const [updateMenu, { loading }] = useMutation(UPDATE_MENU_ITEM, {
+    refetchQueries: [{
+      query: GET_MENU_ITEM,
+      variables: {
+        menu_item_uuid: uuid,
+      },
+    }],
+    awaitRefetchQueries: true,
+  });
+  return { updateMenu, loading };
+};
 
 // CREATE_MENU_ITEM
 // DELETE_MENU_ITEM

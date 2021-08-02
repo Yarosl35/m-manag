@@ -1,7 +1,9 @@
 /* eslint-disable camelcase */
 
 import { Allergent, AllergentParsed } from '../queries/deliverectAllergents';
-import { UpdateMenuItem, ID, IFormInputs } from '../types/index';
+import {
+  UpdateMenuItem, ID, IFormInputs,
+} from '../types/index';
 
 export const prepareMutationDataMenu = (data: IFormInputs, uuid: string, arrayList: ID[],
   dataAllergent: AllergentParsed[]) => {
