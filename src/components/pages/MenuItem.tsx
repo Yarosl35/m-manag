@@ -1,10 +1,11 @@
 /* eslint-disable camelcase */
 
-import { useMutation, useQuery } from '@apollo/client';
+// import { useMutation } from '@apollo/client';
 import { makeStyles } from '@material-ui/core/styles';
-import { FC } from 'react';
+import { FC, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { GetMenuItemData, GET_MENU_ITEM, UPDATE_MENU_ITEM } from '../../queries/menus';
+import { TransitionsModal } from '../modalSave/index';
+import { useGetMenuItem, useUpdateMenuItem } from '../../queries/menus';
 import { UpdateMenuItem } from '../../types';
 import { Layout } from '../layout';
 import { Loader } from '../loader/Loader';
@@ -24,29 +25,31 @@ const styles = makeStyles({
 
 export const MenuItem: FC = () => {
   const style = styles();
+  const [open, setOpen] = useState(false);
+
   const { uuid } = useParams<{uuid: string}>();
+  const menuItem = useGetMenuItem(uuid);
+  const { updateMenu, loading } = useUpdateMenuItem(uuid);
 
-  const { data: menuItem, refetch } = useQuery<GetMenuItemData>(GET_MENU_ITEM, {
-    variables: {
-      menu_item_uuid: uuid,
-    },
-  });
+  const handleModal = (value: boolean) => {
+    setOpen(value);
+  };
 
-  const [updateMenu] = useMutation(UPDATE_MENU_ITEM, {
-    onCompleted: refetch,
-  });
-  const onSave = (objUpdateMenu: UpdateMenuItem) => {
+  const onSave = (updatedMenu: UpdateMenuItem) => {
+    if (!loading) { handleModal(true); }
     updateMenu({
-      variables: objUpdateMenu,
+      variables: updatedMenu,
     });
   };
+
   if (!menuItem) return <Layout><Loader /></Layout>;
 
   const {
     max_temp, max_weight, min_temp, min_weight, name, sku, deliverect_allergents, recipe_steps,
-  } = menuItem.menu_item[0];
+  } = menuItem;
   return (
     <Layout>
+      <TransitionsModal open={open} loading={loading} handleModal={handleModal} />
       <div className={style.root}>
         <SetMenu
           maxTemp={max_temp}

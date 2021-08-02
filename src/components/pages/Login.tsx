@@ -1,8 +1,9 @@
 import { makeStyles } from '@material-ui/core/styles';
-import { FC } from 'react';
-import { useHistory } from 'react-router-dom';
+import { FC, useContext } from 'react';
+import { useHistory, Redirect } from 'react-router-dom';
 import { signIn, signInType } from '../../services/authService';
 import { BtnGoogle } from '../button-google';
+import { AuthContext } from '../../context/AuthContext';
 
 const styles = makeStyles({
   loginPage: {
@@ -28,6 +29,7 @@ interface LoginType {
   setAuth: (obj: signInType) => void
 }
 export const Login: FC<LoginType> = ({ setAuth }) => {
+  const auth = useContext(AuthContext);
   const style = styles();
   const history = useHistory();
   const onSubmit = async () => {
@@ -42,6 +44,7 @@ export const Login: FC<LoginType> = ({ setAuth }) => {
     });
     return history.push('/');
   };
+  if (auth !== null) return <Redirect to="/" />;
   return (
     <div className={style.loginPage}>
       <BtnGoogle onSubmit={onSubmit} />

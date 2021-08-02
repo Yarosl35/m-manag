@@ -1,10 +1,13 @@
 /* eslint-disable camelcase */
-
+/* eslint-disable no-restricted-globals */
 import { makeStyles } from '@material-ui/core/styles';
-import { FC } from 'react';
+import { FC, useState } from 'react';
+import Typography from '@material-ui/core/Typography';
 import {
   Control, DeepMap, FieldError, UseFormRegister, UseFormSetValue, UseFormClearErrors,
 } from 'react-hook-form';
+import Button from '@material-ui/core/Button';
+
 import { recipeStep } from '../../queries/recipes';
 import { RecipeInput } from './RecipeInputs';
 import { IFormInputs } from '../../types';
@@ -12,6 +15,14 @@ import { IFormInputs } from '../../types';
 const styles = makeStyles({
   root: {
     marginTop: '30px',
+  },
+  containerAdd: {
+    marginTop: '-20px',
+    display: 'flex',
+    justifyContent: 'flex-start',
+    alignItems: 'center',
+    paddingLeft: '15px',
+    marginBottom: '20px',
   },
   main: {
     display: 'flex',
@@ -26,7 +37,7 @@ const styles = makeStyles({
     justifyContent: 'center',
     width: '100%',
     height: '100%',
-    paddingBottom: '15px',
+    paddingBottom: '26px',
   },
   line: {
     width: '3px',
@@ -57,6 +68,7 @@ const styles = makeStyles({
     flexDirection: 'column',
     marginLeft: '25px',
     marginRight: '25px',
+    marginTop: '6px',
   },
 });
 
@@ -74,10 +86,28 @@ export const RecipeSteps: FC<PropsRecipe> = ({
   recipeSteps, control, errors, register, setValue, clearErrors,
 }) => {
   const style = styles();
+  const [arrSteps, setArrSteps] = useState<recipeStep[]>(recipeSteps);
+
+  const addStep = () => {
+    const nextStep = arrSteps.length + 1;
+    setArrSteps([...arrSteps, {
+      step: nextStep,
+      is_pause: false,
+      pause_time: null,
+      cooking_time_weight_coefficient: 0,
+      microwave_power: 0,
+      heat_temperature: 0,
+      fan_speed: 0,
+    }]);
+  };
+  const removeLastStep = (index: number) => {
+    const conf = confirm('Are you sure you want to delete the last step?');
+    if (conf) { setArrSteps(arrSteps.filter(({ step }) => step !== index)); }
+  };
 
   return (
     <div className={style.root}>
-      {recipeSteps.map((stepObj, index) => (
+      {arrSteps.map((stepObj, index) => (
         <div key={stepObj.step} className={style.main}>
           <div className={style.leftContainer}>
             <div className={style.containerForNUmberStep}>
@@ -91,6 +121,7 @@ export const RecipeSteps: FC<PropsRecipe> = ({
           </div>
           <div className={style.secondDiv}>
             <RecipeInput
+              showRemoveStepBtn={arrSteps.length === stepObj.step}
               clearErrors={clearErrors}
               index={index}
               control={control}
@@ -98,10 +129,27 @@ export const RecipeSteps: FC<PropsRecipe> = ({
               stepObj={stepObj}
               register={register}
               setValue={setValue}
+              removeStep={removeLastStep}
             />
           </div>
         </div>
       ))}
+      <div className={style.containerAdd}>
+        <Button
+          variant="contained"
+          onClick={addStep}
+          style={{
+            background: '#C7DBC7', marginRight: '20px', borderRadius: '100px', height: '60px',
+          }}
+        >
+          <Typography variant="h4">
+            +
+          </Typography>
+        </Button>
+        <Typography variant="h6" style={{ marginTop: '6px' }}>
+          Add new step
+        </Typography>
+      </div>
     </div>
   );
 };
